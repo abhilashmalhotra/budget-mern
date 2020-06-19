@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Header } from "./components/Header";
 import { Balance } from "./components/Balance";
 
@@ -6,11 +6,15 @@ import { Balance } from "./components/Balance";
 import { GlobalProvider } from "./context/GlobalState";
 import { Home } from "./containers/Home";
 import { AddData } from "./containers/AddData";
+import { Loader } from "./components/Loader";
 import { Route, Switch, Redirect } from "react-router-dom";
 
+
 function App() {
+  
   return (
     <GlobalProvider>
+      {/* <Loader /> */}
       <Header />
       <div className="container">
         <Balance />

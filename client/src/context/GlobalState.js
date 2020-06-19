@@ -16,32 +16,41 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   async function getTransactions() {
+    dispatch({ type: "LOADING_START" });
     try {
       const res = await axios.get("/api/v1/transaction");
-      dispatch({
-        type: "GET_TRANSACTION",
-        payload: res.data.data.transactions,
-      });
+      if (res.data.status === 'success') {
+        dispatch({
+          type: "GET_TRANSACTION",
+          payload: res.data.data.transactions,
+        });
+        dispatch({ type: "LOADING_END" });
+      }
+
     } catch (error) {
       dispatch({
         type: "ERROR_TRANSACTION",
-        payload: "Somthing went wrong",
+        payload: "Somthing went wrong!",
       });
+      dispatch({ type: "LOADING_END" });
     }
   }
 
   async function deleteTransaction(id) {
+    dispatch({ type: "LOADING_START" });
     try {
       await axios.delete(`/api/v1/transaction/${id}`);
       dispatch({
         type: "DELETE_TRANSACTION",
         payload: id,
       });
+      dispatch({ type: "LOADING_END" });
     } catch (error) {
       dispatch({
         type: "ERROR_TRANSACTION",
-        payload: "Somthing went wrong",
+        payload: "Somthing went wrong!",
       });
+      dispatch({ type: "LOADING_END" });
     }
   }
 
@@ -51,27 +60,32 @@ export const GlobalProvider = ({ children }) => {
         "Content-Type": "application/json",
       },
     };
+    dispatch({ type: "LOADING_START" });
     try {
       const res = await axios.post(
         "/api/v1/transaction",
         transaction,
         config
       );
-      console.log(res.data.data);
-      dispatch({
-        type: "ADD_TRANSACTION",
-        payload: res.data.data.transation,
-      });
+      if (res.data.status === 'success') {
+        dispatch({
+          type: "ADD_TRANSACTION",
+          payload: res.data.data.transation,
+        });
+        dispatch({ type: "LOADING_END" });
+      }
+
     } catch (error) {
       dispatch({
         type: "ERROR_TRANSACTION",
-        payload: "Somthing went wrong",
+        payload: "Somthing went wrong!",
       });
+      dispatch({ type: "LOADING_END" });
     }
   }
 
   return (
-    <GlobalContext.Provider
+    < GlobalContext.Provider
       value={{
         transactions: state.transactions,
         error: state.error,
@@ -79,9 +93,10 @@ export const GlobalProvider = ({ children }) => {
         getTransactions,
         deleteTransaction,
         addTransaction,
-      }}
+      }
+      }
     >
       {children}
-    </GlobalContext.Provider>
+    </GlobalContext.Provider >
   );
 };
