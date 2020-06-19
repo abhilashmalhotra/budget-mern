@@ -10,7 +10,6 @@ code {
 }
 
 @import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
-
 :root {
   --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
@@ -247,4 +246,10 @@ input[type="text"], input[type="number"] {
   padding: 9px;
   border-radius: 4px;
   font-size: 13px;
+}
+
+@media only screen and (max-width: 600px) {
+  .list li .delete-btn {
+    opacity: 1;
+  }
 }
