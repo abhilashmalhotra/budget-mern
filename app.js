@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const cors = require("cors");
 
 const AppError = require("./util/appError");
@@ -15,9 +15,7 @@ dotenv.config({ path: "./config.env" });
 
 const app = express();
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+
 
 app.use(cors());
 // Body parser
